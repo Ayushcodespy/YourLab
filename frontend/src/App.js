@@ -1,10 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+import Register from "./components/Register";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Connect ReactJs to Django</h1>
+    <div>
+      <h1>My Health App</h1>
+      <Register />
     </div>
   );
 }
