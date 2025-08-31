@@ -1,10 +1,19 @@
+# api/urls.py
+
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
-from api import views as api_views
+from .views import RegisterView, UserDetailView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('user/token/', api_views.MyTokenObtainPairView.as_view()),
-    path('user/token/refresh/', TokenRefreshView.as_view()),
-    path('user/register/', api_views.RegisterView.as_view()),
-    path('user/profile/<user_id/>', api_views.ProfileView.as_view()),
+    # ✅ Register (Doctor/Patient)
+    path("register/", RegisterView.as_view(), name="register"),
+
+    # ✅ Login (JWT Token generate)
+    path("login/", TokenObtainPairView.as_view(), name="login"),
+
+    # ✅ Refresh Token
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+
+    # ✅ Current User Info
+    path("me/", UserDetailView.as_view(), name="user_detail"),
 ]
