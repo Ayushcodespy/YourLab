@@ -1,39 +1,32 @@
-# api/views.py
-
 from rest_framework import generics, permissions
-from django.contrib.auth import get_user_model
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, UserSerializer
-from .models import Profile
+from .serializers import AppointmentSerializer
+from .models import Appointments
 
-User = get_user_model()
-
-# ✅ Registration View (Doctor/Patient)
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-
-        # JWT token generate
-        refresh = RefreshToken.for_user(user)
-
-        return Response({
-            "user": UserSerializer(user).data,
-            "refresh": str(refresh),
-            "access": str(refresh.access_token),
-        })
-
-
-# ✅ Get Current User (Doctor/Patient)
-class UserDetailView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
+# ✅ Patient creates an appointment
+class AppointmentCreateView(generics.CreateAPIView):
+    serializer_class = AppointmentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self):
-        return self.request.user
+    def perform_create(self, serializer):
+        # Automatically set logged-in user as patient
+        serializer.save(patient=self.request.user)
+
+
+# ✅ Doctor views their appointments
+class DoctorAppointmentListView(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Return only appointments for logged-in doctor
+        return Appointments.objects.filter(doctor=self.request.user)
+
+
+# ✅ Patient views their own appointment history
+class PatientAppointmentListView(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Return only appointments for logged-in patient
+        return Appointments.objects.filter(patient=self.request.user)

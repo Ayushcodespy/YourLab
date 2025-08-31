@@ -1,7 +1,7 @@
 from django.contrib import admin
+from .models import User, DoctorProfile, PatientProfile, Appointments
 
-# Register your models here.
-from api import models as api_models
-
-admin.site.register(api_models.User)
-admin.site.register(api_models.Profile)
+admin.site.register(User)
+admin.site.register(DoctorProfile)
+admin.site.register(PatientProfile)
+admin.site.register(Appointments)

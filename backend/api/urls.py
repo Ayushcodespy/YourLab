@@ -1,19 +1,17 @@
-# api/urls.py
-
 from django.urls import path
-from .views import RegisterView, UserDetailView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import (
+    AppointmentCreateView,
+    DoctorAppointmentListView,
+    PatientAppointmentListView
+)
 
 urlpatterns = [
-    # ✅ Register (Doctor/Patient)
-    path("register/", RegisterView.as_view(), name="register"),
+    # Patient books appointment
+    path("appointments/create/", AppointmentCreateView.as_view(), name="appointment_create"),
 
-    # ✅ Login (JWT Token generate)
-    path("login/", TokenObtainPairView.as_view(), name="login"),
+    # Doctor sees own appointments
+    path("appointments/doctor/", DoctorAppointmentListView.as_view(), name="doctor_appointments"),
 
-    # ✅ Refresh Token
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-
-    # ✅ Current User Info
-    path("me/", UserDetailView.as_view(), name="user_detail"),
+    # Patient sees own appointment history
+    path("appointments/patient/", PatientAppointmentListView.as_view(), name="patient_appointments"),
 ]
