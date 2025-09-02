@@ -1,0 +1,71 @@
+/* Register.css */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(120deg, #89f7fe, #66a6ff);
+}
+
+.auth-form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  text-align: center;
+}
+
+.auth-form h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+.auth-form select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 12px;
+  background: #66a6ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-form button:hover {
+  background: #558de8;
+}
+
+.message {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ff4444;
+}
+
+.switch {
+  margin-top: 15px;
+}
+
+.switch-link {
+  color: #66a6ff;
+  cursor: pointer;
+  font-weight: bold;
+}

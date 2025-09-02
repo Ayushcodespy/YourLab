@@ -1,15 +1,18 @@
-import { useState } from "react";
-import API from "../api";
+import React, { useState } from "react";
+import axios from "axios";
+import "./Register.css"; // CSS file for styling
 
-function Register() {
+const Register = () => {
   const [form, setForm] = useState({
     full_name: "",
     email: "",
-    username: "",
-    role: "patient",
     password: "",
     password2: "",
+    age: "",
+    role: "patient", // default value
   });
+
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,29 +21,75 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("register/", form);
-      console.log("User Registered:", res.data);
-      alert("Registration Successful!");
+      await axios.post("http://127.0.0.1:8000/api/register/", form);
+      setMessage("✅ Registration Successful! You can now login.");
     } catch (err) {
-      console.error(err.response.data);
-      alert("Registration Failed!");
+      if (err.response) {
+        setMessage(`❌ Registration Failed! ${JSON.stringify(err.response.data)}`);
+      } else {
+        setMessage("⚠️ Something went wrong!");
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="full_name" placeholder="Full Name" onChange={handleChange} required />
-      <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
-      <input name="username" placeholder="Username" onChange={handleChange} required />
-      <select name="role" onChange={handleChange}>
-        <option value="patient">Patient</option>
-        <option value="doctor">Doctor</option>
-      </select>
-      <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-      <input name="password2" type="password" placeholder="Confirm Password" onChange={handleChange} required />
-      <button type="submit">Register</button>
-    </form>
+    <div className="auth-container">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h2>Register</h2>
+
+        <input
+          type="text"
+          name="full_name"
+          placeholder="Full Name"
+          value={form.full_name}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="password"
+          name="password2"
+          placeholder="Confirm Password"
+          value={form.password2}
+          onChange={handleChange}
+          required
+        />
+
+        <select
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          required
+        >
+          <option value="patient">Patient</option>
+          <option value="doctor">Doctor</option>
+        </select>
+
+        <button type="submit">Register</button>
+
+        <p className="message">{message}</p>
+
+      </form>
+    </div>
   );
-}
+};
 
 export default Register;

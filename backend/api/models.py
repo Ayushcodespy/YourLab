@@ -42,7 +42,7 @@ class DoctorProfile(models.Model):
 # Patients Profile Model
 class PatientProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    age = models.IntegerField()
+    age = models.IntegerField(default=0) 
     medical_history = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     profile_image = models.ImageField(upload_to=patient_image_path, blank=True, null=True)

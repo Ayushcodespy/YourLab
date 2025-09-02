@@ -3,7 +3,6 @@ import Register from "./components/Register";
 function App() {
   return (
     <div>
-      <h1>My Health App</h1>
       <Register />
     </div>
   );
